@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>v4 Poker Material Maker</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+<div class="app">
+  <header class="hero">
+    <div>
+      <p class="tag">v4 / POKER SHORT MATERIAL MAKER</p>
+      <h1>ポーカー動画素材メーカー</h1>
+      <p class="lead">テロップ・プレイヤーHUD・相手HUDを作成し、キューに貯めて一括PNG出力できます。</p>
+    </div>
+    <div class="heroBtns">
+      <button id="downloadCurrent" class="primary">現在のPNG保存</button>
+      <button id="addQueue">キューに追加</button>
+      <button id="downloadZip">キューをZIP出力</button>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab active" data-tab="telop">テロップ</button>
+    <button class="tab" data-tab="hud">プレイヤーHUD</button>
+    <button class="tab" data-tab="enemy">相手HUD</button>
+    <button class="tab" data-tab="players">プレイヤー管理</button>
+    <button class="tab" data-tab="queue">作成キュー</button>
+  </nav>
+
+  <main class="layout">
+    <section class="panel controls">
+      <div class="page active" id="page-telop">
+        <h2>テロップ作成</h2>
+
+        <label>アクション</label>
+        <select id="tAction">
+          <option>チェック</option><option>コール</option><option selected>ベット</option>
+          <option>レイズ</option><option>3ベット</option><option>4ベット</option>
+          <option>オールイン</option><option>フォールド</option><option>勝利</option>
+          <option>敗北</option><option>セット完成</option><option>フラッシュ完成</option>
+          <option>フルハウス完成</option><option>リバーへ</option><option>ショーダウン</option>
+        </select>
+
+        <label>だれが</label>
+        <select id="tSide">
+          <option value="self" selected>自分（ロクヤマ）</option>
+          <option value="opponent">相手</option>
+          <option value="both">お互い</option>
+          <option value="none">なし</option>
+        </select>
+
+        <label>自分の表示名</label>
+        <input id="selfName" value="ロクヤマ" />
+
+        <label>点数</label>
+        <input id="tAmount" inputmode="numeric" value="76,000" placeholder="例：76,000" />
+
+        <label>役・結果</label>
+        <select id="tResult">
+          <option value="">なし</option>
+          <option>Jのセット</option><option>セット</option><option>フラッシュ</option>
+          <option>フルハウス</option><option>トップペア</option><option>ブラフキャッチ</option>
+          <option>勝率アップ</option><option>フラッシュで負け</option><option>まさかの敗北</option>
+        </select>
+
+        <label>手入力・微調整</label>
+        <textarea id="tText"></textarea>
+        <p class="hint">プルダウン変更時に自動文章が反映されます。ここを直接編集した内容がPNGになります。</p>
+
+        <div class="quick">
+          <button data-preset="selfRaise">自分レイズ</button>
+          <button data-preset="oppBet">相手ベット</button>
+          <button data-preset="selfAllin">自分オールイン</button>
+          <button data-preset="oppAllin">相手オールイン</button>
+          <button data-preset="set">セット完成</button>
+          <button data-preset="bothCheck">お互いチェック</button>
+          <button data-preset="lose">敗北</button>
+        </div>
+      </div>
+
+      <div class="page" id="page-hud">
+        <h2>プレイヤーHUD</h2>
+
+        <label>プレイヤーテンプレ</label>
+        <select id="hudTemplate"></select>
+
+        <label>写真</label>
+        <input id="hudPhoto" type="file" accept="image/*" />
+
+        <label>名前</label>
+        <input id="hudName" value="ロクヤマ" />
+
+        <div class="two">
+          <div>
+            <label>ポジション</label>
+            <select id="hudPos">
+              <option>UTG</option><option>UTG+1</option><option>MP</option><option>LJ</option>
+              <option>HJ</option><option>CO</option><option>BTN</option><option>SB</option><option>BB</option>
+            </select>
+          </div>
+          <div>
+            <label>アクション</label>
+            <select id="hudAct">
+              <option>FOLD</option><option>CHECK</option><option>CALL</option><option>BET</option>
+              <option>RAISE</option><option>3BET</option><option>4BET</option><option selected>ALL-IN</option>
+            </select>
+          </div>
+        </div>
+
+        <label>ハンド</label>
+        <div class="cardsRow">
+          <select id="hRank1"></select><select id="hSuit1"></select>
+          <select id="hRank2"></select><select id="hSuit2"></select>
+        </div>
+
+        <label>点数</label>
+        <input id="hudAmount" value="193,000" inputmode="numeric" />
+
+        <button id="savePlayerTemplate">この写真・名前をテンプレ保存</button>
+      </div>
+
+      <div class="page" id="page-enemy">
+        <h2>相手HUD</h2>
+
+        <label>名前</label>
+        <input id="enemyName" value="プレイヤー" />
+
+        <div class="two">
+          <div>
+            <label>ポジション</label>
+            <select id="enemyPos">
+              <option>UTG</option><option>MP</option><option>HJ</option><option>CO</option>
+              <option>BTN</option><option>SB</option><option selected>BB</option>
+            </select>
+          </div>
+          <div>
+            <label>アクション</label>
+            <select id="enemyAct">
+              <option>CHECK</option><option>CALL</option><option>BET</option><option selected>RAISE</option>
+              <option>3BET</option><option>ALL-IN</option><option>FOLD</option>
+            </select>
+          </div>
+        </div>
+
+        <label>点数</label>
+        <input id="enemyAmount" value="24,000" inputmode="numeric" />
+
+        <label>ハンド表示</label>
+        <select id="enemyCardMode">
+          <option value="back" selected>裏向き2枚</option>
+          <option value="select">カード指定</option>
+          <option value="none">なし</option>
+        </select>
+
+        <div class="cardsRow">
+          <select id="eRank1"></select><select id="eSuit1"></select>
+          <select id="eRank2"></select><select id="eSuit2"></select>
+        </div>
+      </div>
+
+      <div class="page" id="page-players">
+        <h2>プレイヤー管理</h2>
+        <p class="hint">HUDタブで写真と名前を設定し「テンプレ保存」するとここに追加されます。ブラウザのlocalStorageに保存されます。</p>
+        <div id="playerList" class="list"></div>
+      </div>
+
+      <div class="page" id="page-queue">
+        <h2>作成キュー</h2>
+        <p class="hint">「キューに追加」で素材を貯めて、ZIPで一括PNG出力できます。</p>
+        <div id="queueList" class="list"></div>
+      </div>
+    </section>
+
+    <section class="panel previewPanel">
+      <div class="previewHeader">
+        <h2 id="previewTitle">プレビュー</h2>
+        <span>市松模様は確認用。保存PNGは透過です。</span>
+      </div>
+      <div id="previewWrap" class="previewWrap telopPreview">
+        <canvas id="canvas"></canvas>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script src="./app.js"></script>
+</body>
+</html>
