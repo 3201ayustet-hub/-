@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Poker Telop Maker v2</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+<div class="app">
+  <header>
+    <div>
+      <p class="tag">POKER SHORTS PNG MAKER</p>
+      <h1>ポーカー用 背景透過テロップメーカー</h1>
+      <p class="lead">選択肢を選ぶだけで、ポーカー動画っぽいテロップを自動生成します。</p>
+    </div>
+    <button id="downloadBtn" class="download">PNG保存</button>
+  </header>
+
+  <main>
+    <section class="panel">
+      <h2>内容</h2>
+
+      <label>だれが</label>
+      <div class="seg" id="actorGroup">
+        <button data-value="ロクヤマ" class="active">ロクヤマ</button>
+        <button data-value="相手">相手</button>
+        <button data-value="お互い">お互い</button>
+        <button data-value="">なし</button>
+      </div>
+
+      <label>数字 / 点数</label>
+      <input id="amount" inputmode="numeric" placeholder="例：76,000" value="76,000" />
+
+      <label>アクション</label>
+      <select id="action">
+        <option>チェック</option>
+        <option selected>ベット</option>
+        <option>レイズ</option>
+        <option>コール</option>
+        <option>オールイン</option>
+        <option>3ベット</option>
+        <option>フォールド</option>
+        <option>リバーへ</option>
+        <option>ショーダウン</option>
+        <option>勝率アップ</option>
+        <option>敗北</option>
+        <option>フラッシュ完成</option>
+        <option>セット完成</option>
+        <option>フルハウス完成</option>
+        <option>ブラフ</option>
+        <option>激ヤバ展開</option>
+      </select>
+
+      <label>役・補足ワード</label>
+      <select id="extra">
+        <option value="">なし</option>
+        <option>Jのセット</option>
+        <option>フラッシュ</option>
+        <option>フルハウス</option>
+        <option>トップペア</option>
+        <option>オーバーペア</option>
+        <option>ドロー</option>
+        <option>ナッツ</option>
+        <option>ブラフキャッチ</option>
+        <option>勝率</option>
+        <option>敗北</option>
+      </select>
+
+      <label>文章パターン</label>
+      <select id="pattern">
+        <option value="auto" selected>自動でかっこよく</option>
+        <option value="normal">だれが、数字点 アクション</option>
+        <option value="shock">大きいアクションに慄く</option>
+        <option value="result">結果・どうなったか</option>
+        <option value="short">短く強く</option>
+        <option value="custom">手入力</option>
+      </select>
+
+      <textarea id="customText" placeholder="手入力用">相手、76,000点ベット</textarea>
+
+      <h2>雰囲気</h2>
+      <div class="style-grid" id="styleGrid"></div>
+
+      <label>色味スライダー</label>
+      <input id="hue" type="range" min="0" max="360" value="18" />
+
+      <label>迫力</label>
+      <input id="power" type="range" min="0" max="100" value="80" />
+
+      <div class="actions">
+        <button id="randomBtn">ランダム提案</button>
+        <button id="refreshBtn">プレビュー更新</button>
+      </div>
+    </section>
+
+    <section class="panel preview-panel">
+      <div class="preview-top">
+        <h2>プレビュー</h2>
+        <span>保存PNGは背景透過</span>
+      </div>
+      <div class="preview">
+        <canvas id="canvas" width="1600" height="520"></canvas>
+      </div>
+      <p class="note">文字サイズ・キャンバス比率は固定。動画内では編集ソフト側で拡大縮小してください。</p>
+    </section>
+  </main>
+</div>
+<script src="./app.js"></script>
+</body>
+</html>
