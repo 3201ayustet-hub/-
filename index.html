@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Poker Short Material Maker v3</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+<div class="app">
+  <header class="hero">
+    <div>
+      <p class="tag">POKER SHORT MATERIAL MAKER v3</p>
+      <h1>ポーカーショート素材メーカー</h1>
+      <p class="lead">テロップPNG・プレイヤーHUD・相手HUDをブラウザだけで作成できます。</p>
+    </div>
+    <div class="hero-buttons">
+      <button id="saveCurrentBtn" class="primary">現在のPNG保存</button>
+      <button id="saveAllBtn">主要PNG一括保存</button>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab active" data-tab="telop">テロップ</button>
+    <button class="tab" data-tab="hud">プレイヤーHUD</button>
+    <button class="tab" data-tab="enemy">相手HUD</button>
+  </nav>
+
+  <main class="layout">
+    <section class="panel controls">
+      <div class="tab-page active" id="page-telop">
+        <h2>テロップ生成</h2>
+
+        <label>だれが</label>
+        <select id="telopActor">
+          <option>ロクヤマ</option>
+          <option>相手</option>
+          <option>お互い</option>
+          <option value="">なし</option>
+        </select>
+
+        <label>何点</label>
+        <input id="telopAmount" inputmode="numeric" value="76,000" placeholder="例：76,000" />
+
+        <label>アクション</label>
+        <select id="telopAction">
+          <option>チェック</option>
+          <option selected>ベット</option>
+          <option>レイズ</option>
+          <option>コール</option>
+          <option>オールイン</option>
+          <option>3ベット</option>
+          <option>4ベット</option>
+          <option>フォールド</option>
+          <option>リバーへ</option>
+          <option>ショーダウン</option>
+          <option>勝率アップ</option>
+          <option>敗北</option>
+        </select>
+
+        <label>どうなったか / 役</label>
+        <select id="telopResult">
+          <option value="">なし</option>
+          <option>Jのセットが完成</option>
+          <option>セット完成</option>
+          <option>フラッシュ完成</option>
+          <option>フルハウス完成</option>
+          <option>トップペア</option>
+          <option>ブラフキャッチ</option>
+          <option>勝率アップ</option>
+          <option>フラッシュで負け</option>
+          <option>まさかの敗北</option>
+        </select>
+
+        <label>文章テンプレ</label>
+        <select id="telopPattern">
+          <option value="auto" selected>自動でかっこよく</option>
+          <option value="normal">通常</option>
+          <option value="shock">慄き・衝撃</option>
+          <option value="short">短く強く</option>
+          <option value="result">結果中心</option>
+          <option value="custom">手入力</option>
+        </select>
+
+        <label>手入力</label>
+        <textarea id="telopCustom">相手、76,000点ベット</textarea>
+
+        <label>雰囲気</label>
+        <select id="telopStyle">
+          <option value="fire">激アツ・炎</option>
+          <option value="raise">レイズ風</option>
+          <option value="cool">相手・水色</option>
+          <option value="gold">勝負所・金</option>
+          <option value="shock">慄き・衝撃</option>
+          <option value="danger">敗北・危険</option>
+          <option value="simple">白文字・見やすい</option>
+        </select>
+
+        <label>色味</label>
+        <input id="telopHue" type="range" min="0" max="360" value="20" />
+
+        <label>迫力</label>
+        <input id="telopPower" type="range" min="0" max="100" value="82" />
+
+        <div class="quick">
+          <button data-fill="raise">ロクヤマ レイズ</button>
+          <button data-fill="call">相手コール</button>
+          <button data-fill="set">Jセット完成</button>
+          <button data-fill="river">リバーへ</button>
+          <button data-fill="bigbet">相手 76,000ベット</button>
+          <button data-fill="allin">ロクヤマ オールイン</button>
+          <button data-fill="lose">フラッシュで負け</button>
+        </div>
+      </div>
+
+      <div class="tab-page" id="page-hud">
+        <h2>プレイヤーHUD生成</h2>
+
+        <label>人の写真</label>
+        <input id="hudPhoto" type="file" accept="image/*" />
+        <p class="hint">アップロードした写真はブラウザ内だけで処理します。</p>
+
+        <label>名前</label>
+        <input id="hudName" value="ロクヤマ" />
+
+        <div class="two">
+          <div>
+            <label>ポジション</label>
+            <select id="hudPosition">
+              <option>UTG</option><option>UTG+1</option><option>MP</option><option>LJ</option>
+              <option>HJ</option><option>CO</option><option>BTN</option><option>SB</option><option>BB</option>
+            </select>
+          </div>
+          <div>
+            <label>アクション</label>
+            <select id="hudAction">
+              <option>FOLD</option><option>CHECK</option><option>CALL</option><option>BET</option>
+              <option>RAISE</option><option>3BET</option><option>4BET</option><option selected>ALL-IN</option>
+            </select>
+          </div>
+        </div>
+
+        <label>ハンド</label>
+        <div class="cards-row">
+          <select id="hudRank1"></select>
+          <select id="hudSuit1"></select>
+          <select id="hudRank2"></select>
+          <select id="hudSuit2"></select>
+        </div>
+
+        <label>点数</label>
+        <input id="hudAmount" inputmode="numeric" value="193,000" />
+
+        <label>HUDカラー</label>
+        <select id="hudTheme">
+          <option value="red" selected>赤黒・主役</option>
+          <option value="blue">青黒・クール</option>
+          <option value="gold">金黒・勝負所</option>
+          <option value="gray">グレー・通常</option>
+        </select>
+      </div>
+
+      <div class="tab-page" id="page-enemy">
+        <h2>相手HUD生成</h2>
+
+        <label>表示名</label>
+        <input id="enemyName" value="プレイヤー" />
+
+        <div class="two">
+          <div>
+            <label>ポジション</label>
+            <select id="enemyPosition">
+              <option>UTG</option><option>MP</option><option>HJ</option><option>CO</option>
+              <option>BTN</option><option>SB</option><option selected>BB</option>
+            </select>
+          </div>
+          <div>
+            <label>アクション</label>
+            <select id="enemyAction">
+              <option>CHECK</option><option>CALL</option><option>BET</option><option selected>RAISE</option>
+              <option>3BET</option><option>ALL-IN</option><option>FOLD</option>
+            </select>
+          </div>
+        </div>
+
+        <label>点数</label>
+        <input id="enemyAmount" inputmode="numeric" value="24,000" />
+
+        <label>ハンド表示</label>
+        <select id="enemyCardsMode">
+          <option value="back" selected>裏向き2枚</option>
+          <option value="none">なし</option>
+          <option value="select">カードを選択</option>
+        </select>
+
+        <div class="cards-row">
+          <select id="enemyRank1"></select>
+          <select id="enemySuit1"></select>
+          <select id="enemyRank2"></select>
+          <select id="enemySuit2"></select>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel preview-panel">
+      <div class="preview-top">
+        <h2 id="previewTitle">プレビュー</h2>
+        <span>市松模様は確認用。保存PNGは透明です。</span>
+      </div>
+      <div class="preview">
+        <canvas id="canvas" width="1600" height="520"></canvas>
+      </div>
+    </section>
+  </main>
+</div>
+<script src="./app.js"></script>
+</body>
+</html>
